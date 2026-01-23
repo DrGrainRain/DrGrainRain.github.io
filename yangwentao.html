@@ -1,49 +1,378 @@
 <!DOCTYPE html>
-<!-- 声明文档类型为HTML5 -->
 <html lang="zh-CN">
-<!-- 网页的根标签，lang指定语言为中文 -->
 
 <head>
-    <!-- 头部：包含网页标题、样式等，不显示在页面正文 -->
     <meta charset="UTF-8">
-    <!-- 字符编码：确保中文不乱码 -->
+    <!-- 适配移动端 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 适配手机等移动端 -->
-    <title>我的第一个网站</title>
-    <!-- 网页标题（浏览器标签栏显示） -->
-    <style>
-        /* 简单的CSS样式，让页面更美观 */
-        body {
-            font-family: "微软雅黑", sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+    <title>我的个人主页</title>
+    <!-- 引入Tailwind CSS（无需本地安装，直接在线引入） -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义Tailwind配置（可选，用于定义主题色） -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6', // 主色调（蓝色）
+                        secondary: '#64748b', // 辅助色
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
         }
-
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
-
-        .content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    </script>
+    <!-- 简单的自定义样式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            }
         }
     </style>
 </head>
 
-<body>
-    <!-- 正文：页面显示的内容 -->
-    <h1>欢迎来到我的网站！</h1>
-    <div class="content">
-        <p>这是我自己制作并上线的第一个网站 😊</p>
-        <p>你可以在这里添加文字、图片、链接等内容。</p>
-        <!-- 示例：添加图片（替换成自己的图片链接即可） -->
-        <img src="https://picsum.photos/600/300" alt="示例图片" style="width:100%;border-radius:8px;">
-    </div>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <!-- 导航栏（滚动时变色） -->
+    <nav id="navbar" class="fixed w-full top-0 z-50 bg-transparent transition-all duration-300">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-white text-shadow">我的主页</a>
+            <!-- 桌面端导航 -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-white hover:text-primary transition-colors">首页</a>
+                <a href="#about" class="text-white hover:text-primary transition-colors">关于我</a>
+                <a href="#skills" class="text-white hover:text-primary transition-colors">技能</a>
+                <a href="#projects" class="text-white hover:text-primary transition-colors">项目</a>
+                <a href="#contact" class="text-white hover:text-primary transition-colors">联系我</a>
+            </div>
+            <!-- 移动端菜单按钮 -->
+            <button id="menuBtn" class="md:hidden text-white text-2xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <!-- 移动端导航菜单（默认隐藏） -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white shadow-lg absolute w-full">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#home" class="py-2 hover:text-primary transition-colors">首页</a>
+                <a href="#about" class="py-2 hover:text-primary transition-colors">关于我</a>
+                <a href="#skills" class="py-2 hover:text-primary transition-colors">技能</a>
+                <a href="#projects" class="py-2 hover:text-primary transition-colors">项目</a>
+                <a href="#contact" class="py-2 hover:text-primary transition-colors">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页/英雄区 -->
+    <section id="home"
+        class="h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://via.placeholder.com/150" alt="个人头像"
+                class="mx-auto rounded-full w-36 h-36 mb-6 border-4 border-white/50">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">你好，我是 [你的名字]</h1>
+            <p class="text-xl md:text-2xl mb-8">一名 [你的职业/身份，如：前端开发工程师/学生/设计师]</p>
+            <a href="#about"
+                class="bg-white text-primary px-8 py-3 rounded-full font-medium hover:bg-opacity-90 transition-all">
+                了解更多 <i class="fa fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">关于我</h2>
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <div class="md:w-1/2">
+                    <img src="https://via.placeholder.com/500" alt="个人照片" class="rounded-lg shadow-lg w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold mb-4">个人简介</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        这里填写你的个人简介，比如：我是一名热爱编程的前端开发者，拥有X年的Web开发经验，熟悉HTML、CSS、JavaScript等技术栈，
+                        擅长使用React/Vue等框架开发高性能的前端应用。我喜欢学习新技术，乐于解决实际开发中的问题，追求简洁、优雅的代码风格。
+                    </p>
+                    <h3 class="text-2xl font-semibold mb-4">基本信息</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li><i class="fa fa-user text-primary mr-2"></i> 姓名：[你的名字]</li>
+                        <li><i class="fa fa-calendar text-primary mr-2"></i> 年龄：[你的年龄]</li>
+                        <li><i class="fa fa-envelope text-primary mr-2"></i> 邮箱：[你的邮箱]</li>
+                        <li><i class="fa fa-phone text-primary mr-2"></i> 电话：[你的电话]</li>
+                        <li><i class="fa fa-map-marker text-primary mr-2"></i> 所在地：[你的城市]</li>
+                    </ul>
+                    <a href="#contact"
+                        class="inline-block mt-6 bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        联系我 <i class="fa fa-paper-plane ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能展示 -->
+    <section id="skills" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">我的技能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 技能卡片1 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="text-primary text-4xl mb-4"><i class="fa fa-code"></i></div>
+                    <h3 class="text-xl font-semibold mb-3">前端开发</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>HTML/CSS (精通)</li>
+                        <li>JavaScript (熟练)</li>
+                        <li>React/Vue (熟练)</li>
+                        <li>Tailwind CSS (精通)</li>
+                    </ul>
+                </div>
+                <!-- 技能卡片2 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="text-primary text-4xl mb-4"><i class="fa fa-server"></i></div>
+                    <h3 class="text-xl font-semibold mb-3">后端开发</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>Node.js (熟练)</li>
+                        <li>Python (基础)</li>
+                        <li>MySQL (熟练)</li>
+                        <li>RESTful API (精通)</li>
+                    </ul>
+                </div>
+                <!-- 技能卡片3 -->
+                <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                    <div class="text-primary text-4xl mb-4"><i class="fa fa-paint-brush"></i></div>
+                    <h3 class="text-xl font-semibold mb-3">其他技能</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>UI/UX 设计 (基础)</li>
+                        <li>Git 版本控制 (精通)</li>
+                        <li>Linux 基础 (熟练)</li>
+                        <li>文档编写 (熟练)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目经历 -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">我的项目</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 项目卡片1 -->
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="https://via.placeholder.com/600x400" alt="项目截图" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">项目名称1</h3>
+                        <p class="text-gray-700 mb-4">
+                            项目描述：这里填写项目的简要介绍，比如：一个基于React开发的电商网站前端，实现了商品展示、购物车、用户登录等核心功能。
+                        </p>
+                        <div class="flex space-x-4 mb-4">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">React</span>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Tailwind CSS</span>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Axios</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors">
+                                <i class="fa fa-github mr-1"></i> 源码
+                            </a>
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors">
+                                <i class="fa fa-external-link mr-1"></i> 预览
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 项目卡片2 -->
+                <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden card-hover">
+                    <img src="https://via.placeholder.com/600x400" alt="项目截图" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">项目名称2</h3>
+                        <p class="text-gray-700 mb-4">
+                            项目描述：这里填写项目的简要介绍，比如：一个基于Node.js和Express开发的后端API服务，提供用户认证、数据增删改查等接口。
+                        </p>
+                        <div class="flex space-x-4 mb-4">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Node.js</span>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Express</span>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">MySQL</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors">
+                                <i class="fa fa-github mr-1"></i> 源码
+                            </a>
+                            <a href="#" class="text-primary hover:text-primary/80 transition-colors">
+                                <i class="fa fa-external-link mr-1"></i> 预览
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-16">联系我</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- 联系信息 -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6">联系方式</h3>
+                    <div class="space-y-4 text-gray-700">
+                        <div class="flex items-center">
+                            <div
+                                class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mr-4">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">邮箱</h4>
+                                <p>[你的邮箱地址]</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mr-4">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">电话</h4>
+                                <p>[你的电话号码]</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mr-4">
+                                <i class="fa fa-map-marker"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">地址</h4>
+                                <p>[你的所在城市/地址]</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 社交账号 -->
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold mb-4">社交账号</h3>
+                        <div class="flex space-x-4">
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-github"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-weixin"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 联系表单 -->
+                <div>
+                    <form class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-semibold mb-6">发送消息</h3>
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 mb-2">姓名</label>
+                            <input type="text" id="name"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="请输入你的姓名">
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 mb-2">邮箱</label>
+                            <input type="email" id="email"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="请输入你的邮箱">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-gray-700 mb-2">消息</label>
+                            <textarea id="message" rows="5"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                placeholder="请输入你想对我说的话"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium">
+                            发送消息 <i class="fa fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 [你的名字] - 个人主页 | 保留所有权利</p>
+            <p class="mt-2 text-gray-400">使用 HTML + Tailwind CSS 构建</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript 交互逻辑 -->
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white', 'shadow-md');
+                navbar.classList.remove('bg-transparent');
+                // 改变导航文字颜色
+                document.querySelectorAll('#navbar a:not(.text-shadow)').forEach(link => {
+                    link.classList.remove('text-white');
+                    link.classList.add('text-gray-800');
+                });
+            } else {
+                navbar.classList.remove('bg-white', 'shadow-md');
+                navbar.classList.add('bg-transparent');
+                // 恢复导航文字颜色
+                document.querySelectorAll('#navbar a:not(.text-shadow)').forEach(link => {
+                    link.classList.add('text-white');
+                    link.classList.remove('text-gray-800');
+                });
+            }
+        });
+
+        // 移动端菜单切换
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            // 切换菜单图标
+            const icon = menuBtn.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                // 关闭移动端菜单
+                mobileMenu.classList.add('hidden');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80, // 减去导航栏高度
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
